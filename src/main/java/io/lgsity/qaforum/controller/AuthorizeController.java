@@ -51,7 +51,7 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if(githubUser != null){
+        if (githubUser != null && githubUser.getId() != null) {
             //登录成功，设置session
             User user = new User();
             user.setAccountId(String.valueOf(githubUser.getId()));
@@ -61,10 +61,10 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
-            request.getSession().setAttribute("user",githubUser);
+            response.addCookie(new Cookie("token", token));
+            request.getSession().setAttribute("user", githubUser);
             return "redirect:/";
-        }else {
+        } else {
             //登录失败，跳转登录页面
             return "redirect:/";
         }
