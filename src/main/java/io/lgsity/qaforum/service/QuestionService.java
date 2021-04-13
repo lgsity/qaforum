@@ -1,5 +1,6 @@
 package io.lgsity.qaforum.service;
 
+import io.lgsity.qaforum.dto.PageInationDTO;
 import io.lgsity.qaforum.dto.QuestionDTO;
 import io.lgsity.qaforum.mapper.QuestionMapper;
 import io.lgsity.qaforum.mapper.UserMapper;
@@ -23,19 +24,40 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionMapper questionMapper;
 
-    public List<QuestionDTO> conformQuestionDTO(List<Question> questionList){
+    public PageInationDTO conformQuestionDTO(Integer page, Integer size) {
+
+        PageInationDTO pageInationDTO = new PageInationDTO();
+        Integer totalCount = questionMapper.count();
+        pageInationDTO.setPageInation(totalCount, page, size);
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > pageInationDTO.getTotalPage()) {
+            page = pageInationDTO.getTotalPage();
+        }
+
+        //size*(page-1)
+        Integer offset = size * (page - 1);
+
+        List<Question> questionList = questionMapper.findAll(offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
-        for (Question question:questionList
-             ) {
+
+        for (Question question : questionList
+        ) {
             QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question,questionDTO);
+            BeanUtils.copyProperties(question, questionDTO);
             User user = userMapper.findUserById(question.getCreator());
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        return questionDTOList;
+        pageInationDTO.setQuestionDTOList(questionDTOList);
+
+
+        return pageInationDTO;
     }
 
 }
