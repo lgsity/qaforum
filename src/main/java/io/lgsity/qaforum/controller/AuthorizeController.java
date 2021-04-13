@@ -5,6 +5,7 @@ import io.lgsity.qaforum.dto.GithubUser;
 import io.lgsity.qaforum.mapper.UserMapper;
 import io.lgsity.qaforum.pojo.User;
 import io.lgsity.qaforum.provider.GithubProvider;
+import io.lgsity.qaforum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -58,10 +59,8 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
             request.getSession().setAttribute("user", githubUser);
             return "redirect:/";
@@ -69,5 +68,14 @@ public class AuthorizeController {
             //登录失败，跳转登录页面
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie token = new Cookie("token", null);
+        response.addCookie(token);
+        token.setMaxAge(0);
+        return "redirect:/";
     }
 }
