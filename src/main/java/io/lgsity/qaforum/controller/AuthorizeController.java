@@ -2,7 +2,6 @@ package io.lgsity.qaforum.controller;
 
 import io.lgsity.qaforum.dto.AccessTokenDTO;
 import io.lgsity.qaforum.dto.GithubUser;
-import io.lgsity.qaforum.mapper.UserMapper;
 import io.lgsity.qaforum.pojo.User;
 import io.lgsity.qaforum.provider.GithubProvider;
 import io.lgsity.qaforum.service.UserService;
