@@ -11,7 +11,8 @@ public enum  CustomizeErrorCode implements ICustomizeErrorCode {
     TARGET_PARAM_NOT_FOUND(1002,"未选中任何问题或评论进行回复"),
     SYS_ERROR(1003,"服务器冒烟了，请稍后再来试试吧！"),
     TYPE_PARAM_WRONG(1004,"评论类型错误或不存在"),
-    COMMENT_NOT_FOUND(1005,"回复的评论不存在了！");
+    COMMENT_NOT_FOUND(1005,"回复的评论不存在了！"),
+    CONTENT_IS_EMPTY(1006,"评论不能为空！");
 
     private String message;
     private Integer code;

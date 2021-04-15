@@ -3,9 +3,11 @@ package io.lgsity.qaforum.controller;
 import io.lgsity.qaforum.dto.CommentCreateDTO;
 import io.lgsity.qaforum.dto.ResultDTO;
 import io.lgsity.qaforum.exception.CustomizeErrorCode;
+import io.lgsity.qaforum.exception.CustomizeException;
 import io.lgsity.qaforum.pojo.Comment;
 import io.lgsity.qaforum.pojo.User;
 import io.lgsity.qaforum.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +35,9 @@ public class CommentController {
         User user = (User)request.getSession().getAttribute("user");
         if (user == null){
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
+        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())){
+            throw new CustomizeException(CustomizeErrorCode.CONTENT_IS_EMPTY);
         }
         Comment comment = new Comment();
         comment.setContent(commentCreateDTO.getContent());
