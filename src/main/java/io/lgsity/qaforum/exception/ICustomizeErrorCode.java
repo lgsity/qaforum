@@ -7,4 +7,5 @@ package io.lgsity.qaforum.exception;
  */
 public interface ICustomizeErrorCode {
     String getMessage();
+    Integer getCode();
 }

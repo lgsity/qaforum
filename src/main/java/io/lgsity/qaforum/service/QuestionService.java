@@ -4,7 +4,6 @@ import io.lgsity.qaforum.dto.PageInationDTO;
 import io.lgsity.qaforum.dto.QuestionDTO;
 import io.lgsity.qaforum.exception.CustomizeErrorCode;
 import io.lgsity.qaforum.exception.CustomizeException;
-import io.lgsity.qaforum.exception.ICustomizeErrorCode;
 import io.lgsity.qaforum.mapper.QuestionExtMapper;
 import io.lgsity.qaforum.mapper.QuestionMapper;
 import io.lgsity.qaforum.mapper.UserMapper;
@@ -74,7 +73,7 @@ public class QuestionService {
         return pageInationDTO;
     }
 
-    public PageInationDTO findQuestionByUserId(Integer id, Integer page, Integer size) {
+    public PageInationDTO findQuestionByUserId(Long id, Integer page, Integer size) {
         PageInationDTO pageInationDTO = new PageInationDTO();
         Integer totalPage;
         QuestionExample example = new QuestionExample();
@@ -119,7 +118,7 @@ public class QuestionService {
         return pageInationDTO;
     }
 
-    public QuestionDTO getQuestionDTOByQuestionId(Integer id) {
+    public QuestionDTO getQuestionDTOByQuestionId(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -156,7 +155,7 @@ public class QuestionService {
         }
     }
 
-    public void incViewCount(Integer id) {
+    public void incViewCount(Long id) {
         Question updateQuestion = new Question();
         updateQuestion.setViewCount(1);
         updateQuestion.setId(id);

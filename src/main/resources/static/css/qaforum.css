@@ -16,6 +16,9 @@ body {
     width: 40px;
     height: 40px;
 }
+.media-body {
+    padding-top: 10px;
+}
 
 .text-desc {
     font-size: 12px;
@@ -28,9 +31,38 @@ body {
 }
 
 .qaforum-menu {
+    display: block;
     color: #999;
     font-size: 13px;
+    margin-bottom: 15px;
 }
 .jumbotron {
     margin: 50px;
+}
+.comment {
+    margin: 10px 0;
+}
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.comment-btn {
+    float: right;
+    margin-bottom: 10px;
+}
+.comment-sp {
+    margin-top: 0;
+}
+.menu {
+    color: #999;
+    margin-top: 10px;
+}
+.menu .icon {
+    margin-right: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .icon:hover {
+    color: #499ef3;
 }
