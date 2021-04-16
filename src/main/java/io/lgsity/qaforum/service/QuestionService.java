@@ -136,7 +136,9 @@ public class QuestionService {
             //新发布提问
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
-            questionMapper.insert(question);
+
+            //避免计数不插入为null
+            questionMapper.insertSelective(question);
         } else {
             //修改已有提问
             Question updateQuestion = new Question();

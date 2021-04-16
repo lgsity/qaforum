@@ -1,7 +1,9 @@
 package io.lgsity.qaforum.controller;
 
 import io.lgsity.qaforum.dto.CommentCreateDTO;
+import io.lgsity.qaforum.dto.CommentDTO;
 import io.lgsity.qaforum.dto.ResultDTO;
+import io.lgsity.qaforum.enums.CommentTypeEnum;
 import io.lgsity.qaforum.exception.CustomizeErrorCode;
 import io.lgsity.qaforum.exception.CustomizeException;
 import io.lgsity.qaforum.pojo.Comment;
@@ -10,12 +12,10 @@ import io.lgsity.qaforum.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Author shulinYuan
@@ -29,14 +29,14 @@ public class CommentController {
     private CommentService commentService;
 
     @ResponseBody
-    @RequestMapping(path = "/comment",method = RequestMethod.POST)
+    @RequestMapping(path = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
-                       HttpServletRequest request){
-        User user = (User)request.getSession().getAttribute("user");
-        if (user == null){
+                       HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
-        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())){
+        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())) {
             throw new CustomizeException(CustomizeErrorCode.CONTENT_IS_EMPTY);
         }
         Comment comment = new Comment();
@@ -49,5 +49,12 @@ public class CommentController {
         comment.setLikeCount(0);
         commentService.insert(comment);
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id) {
+        List<CommentDTO> commentDTOS = commentService.selListByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 }

@@ -2,6 +2,7 @@ package io.lgsity.qaforum.controller;
 
 import io.lgsity.qaforum.dto.CommentDTO;
 import io.lgsity.qaforum.dto.QuestionDTO;
+import io.lgsity.qaforum.enums.CommentTypeEnum;
 import io.lgsity.qaforum.service.CommentService;
 import io.lgsity.qaforum.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class QuestionController {
     public String question(@PathVariable("id") Long id,
                            Model model){
         QuestionDTO questionDTO = questionService.getQuestionDTOByQuestionId(id);
-        List<CommentDTO> comments = commentService.selListByQId(id);
+        List<CommentDTO> comments = commentService.selListByTargetId(id, CommentTypeEnum.QUESTION);
         //累加阅读数
         questionService.incViewCount(id);
         model.addAttribute("question",questionDTO);
