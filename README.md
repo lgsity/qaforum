@@ -1,5 +1,5 @@
 # qaforum
-   基于SpringBoot，SpringMVC，MyBtis的问答平台，现有功能：通过github第三方登录，首页问题列表，登录后发起问题，回复，浏览数和回复数统计；后续会继续跟新，本项目目的是熟练SpringBoot使用，顺便学习从0开始运用前端框架。
+   基于SpringBoot，SpringMVC，MyBtis的问答平台，现有功能：通过github第三方登录，首页问题列表，登录后发起问题，回复，浏览数和回复数统计；后续会继续更新，本项目目的是熟练SpringBoot使用，顺便学习从0开始运用前端框架。
 
 # 技术栈
 后端：Spring Boot，SpringMVC，MyBtis，MyBatis Generator
